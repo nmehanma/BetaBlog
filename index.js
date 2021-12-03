@@ -49,6 +49,14 @@ myApp.get("/", function(req, res) {
   res.render("form"); //no need to add.ejs extension to the command.
 });
 
+// Login page
+myApp.get("/login", function(req, res) {
+  Order.find({}).exec(function(err, orders) {
+    // console.log(err);
+    // res.render("allorders", {orders: orders});
+  })
+});
+
 
 //open up the ports, http protocol
 
