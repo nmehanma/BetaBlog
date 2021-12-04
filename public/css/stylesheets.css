@@ -43,24 +43,28 @@ header > img {
   padding: 10px;
 }
 
-.login-data {
+.login-data,
+.admin-panel-data {
   border: 2px solid black;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   margin: 40px 200px;
 }
-.login-data > h1, div {
+.login-data > h1,
+div {
   background: grey;
 }
 
-#login-form {
+#login-form,
+#admin-panel-form {
   display: flex;
   flex-direction: column;
   /* align-items: left; */
 }
 
-#login-form > div {
+#login-form > div,
+#admin-panel-form > div {
   display: flex;
   flex-direction: row;
   margin: 10px;
@@ -69,16 +73,24 @@ header > img {
   margin-right: 25%;
 }
 
-#login-form > div > input {
-  /* justify-content: center; */
-  /* align-content: center; */
+#login-form > div > input,
+#admin-panel-form > div > input {
+  justify-content: center;
+  align-content: center;
   padding-right: 20px;
   margin-left: 20px;
 }
+
+/* #image-upload-label {
+} */
 
 footer {
   /* margin:auto; */
   text-align: center;
   background: brown;
   padding: 10px;
+}
+
+#errors {
+  text-align: center;
 }

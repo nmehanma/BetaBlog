@@ -1,6 +1,7 @@
 //Author- Najeam Mehanmal 7457195
 // import dependencies
 const express = require("express");
+// let bodyParser = require('body-parser')
 const path = require("path");
 const { check, validationResult } = require("express-validator");
 // const { RSA_PSS_SALTLEN_DIGEST } = require('constants')
@@ -14,6 +15,8 @@ myApp.set("views", path.join(__dirname, "views"));
 myApp.use(express.static(__dirname + "/public"));
 
 myApp.set("view engine", "ejs");
+
+// ---------------
 
 // set up database connection
 
@@ -31,6 +34,19 @@ const Admin = mongoose.model("Admin", {
   password: String
 });
 
+//Setup the model for the pagesposts Collection - admin
+
+const PagesPosts = mongoose.model("PagesPosts", {
+  pagePostTitle: String,
+  slugOfPage: String
+  // img: {
+  //   data: Buffer,
+  //   contentType: String
+  // }
+});
+
+// -----------------------
+
 //Get Express Session
 
 const session = require("express-session");
@@ -44,6 +60,8 @@ myApp.use(
   })
 );
 
+// ----------------- Directories
+
 // home page root directory
 myApp.get("/", function(req, res) {
   res.render("home"); //no need to add.ejs extension to the command.
@@ -51,9 +69,31 @@ myApp.get("/", function(req, res) {
 
 // beta blogs
 
-myApp.get("/betablog", function(req, res) {
-  res.render("betablog"); //no need to add.ejs extension to the command.
+myApp.get("/adminPanel", function(req, res) {
+  res.render("adminpanel"); //no need to add.ejs extension to the command.
 });
+
+myApp.post("/adminpanel", function(req, res) {
+  let pagePostTitle = req.body.newPagePostTitle;
+  let slugOfPage = req.body.newSlugPageTitle;
+  // let image = req.body.imageSelected;
+  console.log(pagePostTitle);
+  console.log(slugOfPage);
+
+  let pageData = {
+    pagePostTitle: pagePostTitle,
+    slugOfPage: slugOfPage
+  };
+
+  let myadminPanel = new PagesPosts(pageData);
+  myadminPanel.save().then(function() {
+    console.log("New pagepost created!");
+  });
+
+  res.render("adminpanel");
+});
+
+// Get request for each link that gets uploaded in the dropdown
 
 // Login page - Get
 myApp.get("/login", function(req, res) {
@@ -66,8 +106,8 @@ myApp.post("/login", function(req, res) {
   let userInput = req.body.username;
   let passwordInput = req.body.password;
 
-  //console.log(userInput);
-  //console.log(passwordInput);
+  // console.log(userInput);
+  // console.log(passwordInput);
 
   Admin.findOne({ username: userInput, password: passwordInput }).exec(function(
     err,
@@ -89,10 +129,6 @@ myApp.post("/login", function(req, res) {
     }
   });
 });
-
-
-
-
 
 //open up the ports, http protocol
 

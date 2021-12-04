@@ -1,3 +1,43 @@
-<%- include('layouts/header'); -%>
-<%- include('layouts/nav'); -%>
-<h1>Review the list of Blogs posted</h1>
+<%- include('layouts/header'); -%> <%- include('layouts/nav'); -%>
+
+<div class="admin-panel-data">
+  <h1>Admin Panel</h1>
+  <form name="admin-panel" id="admin-panel-form" method="post" action="">
+    <!--User info-->
+    <div class="name-label">
+      <label for="new-page-post">Insert Page/Post Title</label>
+      <input
+        name="newPagePostTitle"
+        type="text"
+        id="new-page-post"
+        placeholder="Enter Page/Post Title"
+      />
+    </div>
+    <div class="slug-page">
+      <label for="slug-page">Slug of page</label>
+      <input
+        name="newSlugPageTitle"
+        type="text"
+        id="slug-page"
+        placeholder="Enter Slug title"
+      />
+    </div>
+    <!-- <div class="image-upload">
+        <label for="image-upload" id="image-upload-label">Image Upload</label>
+        <input
+          name="imageSelected"
+          id="image-upload"
+          type="file"
+          onchange="readURL(this)"
+          accept="image"
+        />
+      </div> -->
+    <div class="submit">
+      <input id="submit" type="submit" value="Add" />
+    </div>
+
+    <p id="errors">
+      <% if(typeof(error) !== 'undefined') { %> <%= error %> <% } %>
+    </p>
+  </form>
+</div>
