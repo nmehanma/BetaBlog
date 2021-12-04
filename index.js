@@ -15,10 +15,10 @@ myApp.use(express.static(__dirname + "/public"));
 
 myApp.set("view engine", "ejs");
 
-//multer used to help with image uploads
+// //multer used to help with image uploads
 
-const multer = require('multer');
-const upload = multer({dest: './uploads/'});
+// const multer = require("multer");
+// const upload = multer({ dest: "./uploads/" });
 
 // ---------------
 
@@ -43,8 +43,7 @@ const Admin = mongoose.model("Admin", {
 const PagesPosts = mongoose.model("PagesPosts", {
   pagePostTitle: String,
   slugOfPage: String,
-  image: String,
-  
+  imageName: String
 });
 
 // -----------------------
@@ -75,11 +74,23 @@ myApp.get("/adminpanel", function(req, res) {
   res.render("adminpanel"); //no need to add.ejs extension to the command.
 });
 
-myApp.post("/adminpanel", upload.single('imageSelected'), function(req, res) {
-  console.log(req.file)
+//Support for file handling
+
+const fileUpload = require("express-fileupload");
+myApp.use(fileUpload());
+
+// Post request adminpanel
+
+myApp.post("/adminpanel", function(req, res) {
+  // console.log(req.file)
+  let imageName = req.files.myImage.name;
+  let image = req.files.myImage;
+  let imagePath = "public/contact_images/" + imageName;
+  image.mv(imagePath, function(err) {
+    console.log(err);
+  });
   let pagePostTitle = req.body.newPagePostTitle;
   let slugOfPage = req.body.newSlugPageTitle;
-  let image = req.file.filename;
 
   console.log(pagePostTitle);
   console.log(slugOfPage);
@@ -88,7 +99,7 @@ myApp.post("/adminpanel", upload.single('imageSelected'), function(req, res) {
   let pageData = {
     pagePostTitle,
     slugOfPage,
-    image
+    imageName
   };
 
   let myadminPanel = new PagesPosts(pageData);
