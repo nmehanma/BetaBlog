@@ -6,7 +6,8 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.13.0",
     "mongodb": "^4.1.4",
-    "mongoose": "^6.0.14"
+    "mongoose": "^6.0.14",
+    "multer": "^1.4.3"
   },
   "name": "betablog",
   "version": "1.0.0",

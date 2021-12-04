@@ -1,7 +1,6 @@
 //Author- Najeam Mehanmal 7457195
 // import dependencies
 const express = require("express");
-// let bodyParser = require('body-parser')
 const path = require("path");
 const { check, validationResult } = require("express-validator");
 // const { RSA_PSS_SALTLEN_DIGEST } = require('constants')
@@ -15,6 +14,11 @@ myApp.set("views", path.join(__dirname, "views"));
 myApp.use(express.static(__dirname + "/public"));
 
 myApp.set("view engine", "ejs");
+
+//multer used to help with image uploads
+
+const multer = require('multer');
+const upload = multer({dest: './uploads/'});
 
 // ---------------
 
@@ -38,11 +42,9 @@ const Admin = mongoose.model("Admin", {
 
 const PagesPosts = mongoose.model("PagesPosts", {
   pagePostTitle: String,
-  slugOfPage: String
-  // img: {
-  //   data: Buffer,
-  //   contentType: String
-  // }
+  slugOfPage: String,
+  image: String,
+  
 });
 
 // -----------------------
@@ -69,20 +71,24 @@ myApp.get("/", function(req, res) {
 
 // beta blogs
 
-myApp.get("/adminPanel", function(req, res) {
+myApp.get("/adminpanel", function(req, res) {
   res.render("adminpanel"); //no need to add.ejs extension to the command.
 });
 
-myApp.post("/adminpanel", function(req, res) {
+myApp.post("/adminpanel", upload.single('imageSelected'), function(req, res) {
+  console.log(req.file)
   let pagePostTitle = req.body.newPagePostTitle;
   let slugOfPage = req.body.newSlugPageTitle;
-  // let image = req.body.imageSelected;
+  let image = req.file.filename;
+
   console.log(pagePostTitle);
   console.log(slugOfPage);
+  console.log(image);
 
   let pageData = {
-    pagePostTitle: pagePostTitle,
-    slugOfPage: slugOfPage
+    pagePostTitle,
+    slugOfPage,
+    image
   };
 
   let myadminPanel = new PagesPosts(pageData);
