@@ -9,10 +9,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <% if (pagesPosts) {
-           for (pagePost of pagesPosts){ %>
+        
+           <% for (pagePost of pagesPosts){ %>
             <a href="/<%= pagePost.slugOfPage %>"><%= pagePost.pagePostTitle %></a>
-          <% } %>
+      
         <% } %>
       </div>
     </div>

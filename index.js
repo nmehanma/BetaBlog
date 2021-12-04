@@ -17,7 +17,6 @@ myApp.use(express.static(__dirname + "/public"));
 
 myApp.set("view engine", "ejs");
 
-
 // ---------------
 
 // set up database connection
@@ -69,13 +68,16 @@ myApp.use(
 // beta blogs
 
 myApp.get("/adminpanel", function(req, res) {
-  PagesPosts.find({}).exec((err, pagesPosts) => {
-    res.render("adminpanel", { pagesPosts: pagesPosts });
-  });
+  if (req.session.userLoggedIn) {
+    PagesPosts.find({}).exec((err, pagesPosts) => {
+      res.render("adminpanel", { pagesPosts: pagesPosts });
+    });
+  } else {
+    res.redirect("/login");  // need to send pagesPosts
+  }
 });
 
 //Support for file handling
-
 
 myApp.use(fileUpload());
 
@@ -117,19 +119,28 @@ myApp.post("/adminpanel", function(req, res) {
 // Login page - Get
 myApp.get("/login", function(req, res) {
   PagesPosts.find({}).exec((err, pagesPosts) => {
-    res.render("login", { pagesPosts: pagesPosts });
+    console.log(pagesPosts)
+    res.render("login", {pagesPosts : pagesPosts} ); // need to send pagesPosts as blank
   });
 });
+
+//Logout page - Get
+
+myApp.get("/logout", (req, res) => {
+  //End username session an set logged in false
+  req.session.username = ""
+  req.session.userLoggedIn = false;
+  PagesPosts.find({}).exec((err, pagesPosts) => {
+    console.log(pagesPosts)
+    res.render("login", {pagesPosts: pagesPosts, error: "You have succesfully logged out"})
+  });
+})
 
 // Login page - Post
 
 myApp.post("/login", function(req, res) {
   let userInput = req.body.username;
   let passwordInput = req.body.password;
-
-  PagesPosts.find({}).exec((err, pagesPosts) => {
-    { pagesPosts: pagesPosts };
-  });
 
   // console.log(userInput);
   // console.log(passwordInput);
@@ -150,8 +161,11 @@ myApp.post("/login", function(req, res) {
       res.redirect("adminPanel");
     } else {
       //display error if the user info is incorrect,
-      res.render("login", { error: "Sorry Login Failed, please try again"});
-    }
+      PagesPosts.find({}).exec((err, pagesPosts) => {
+        console.log(pagesPosts)
+        res.render("login", {pagesPosts: pagesPosts, error: "Sorry Login Failed, please try again"})
+      });
+    };
   });
 });
 
@@ -163,7 +177,6 @@ myApp.get("/:slugOfPage", (req, res) => {
     }
   );
 });
-
 
 //open up the ports, http protocol
 
