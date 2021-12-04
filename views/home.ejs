@@ -1,7 +1,10 @@
 <!--Author- Najeam Mehanmal 7457195-->
 <%- include('layouts/header'); -%>
 <body>
-    <%- include('layouts/nav'); -%>
-  <h1>Welcome to BetaBlog</h1>
-</body>
+  <h1>Post retrieved</h1>
+  <h2><%= pagePost.pagePostTitle %></h2>
 
+  <div class="img">
+    <img src="../contact_images/<%= pagePost.imageName %>" alt="" />
+  </div>
+</body>

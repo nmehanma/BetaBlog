@@ -4,6 +4,8 @@ const express = require("express");
 const path = require("path");
 const { check, validationResult } = require("express-validator");
 // const { RSA_PSS_SALTLEN_DIGEST } = require('constants')
+const session = require("express-session");
+const fileUpload = require("express-fileupload");
 
 let myApp = express();
 myApp.use(express.urlencoded({ extended: true }));
@@ -15,10 +17,6 @@ myApp.use(express.static(__dirname + "/public"));
 
 myApp.set("view engine", "ejs");
 
-// //multer used to help with image uploads
-
-// const multer = require("multer");
-// const upload = multer({ dest: "./uploads/" });
 
 // ---------------
 
@@ -50,8 +48,6 @@ const PagesPosts = mongoose.model("PagesPosts", {
 
 //Get Express Session
 
-const session = require("express-session");
-
 // Setup Session
 myApp.use(
   session({
@@ -64,25 +60,29 @@ myApp.use(
 // ----------------- Directories
 
 // home page root directory
-myApp.get("/", function(req, res) {
-  res.render("home"); //no need to add.ejs extension to the command.
-});
+// myApp.get("/", function(req, res) {
+//   PagesPosts.find({}).exec((err, pagesPosts) => {
+//     res.render("home", { pagesPosts: pagesPosts });
+//   });
+// });
 
 // beta blogs
 
 myApp.get("/adminpanel", function(req, res) {
-  res.render("adminpanel"); //no need to add.ejs extension to the command.
+  PagesPosts.find({}).exec((err, pagesPosts) => {
+    res.render("adminpanel", { pagesPosts: pagesPosts });
+  });
 });
 
 //Support for file handling
 
-const fileUpload = require("express-fileupload");
+
 myApp.use(fileUpload());
 
 // Post request adminpanel
 
 myApp.post("/adminpanel", function(req, res) {
-  // console.log(req.file)
+  console.log(req.files);
   let imageName = req.files.myImage.name;
   let image = req.files.myImage;
   let imagePath = "public/contact_images/" + imageName;
@@ -107,14 +107,18 @@ myApp.post("/adminpanel", function(req, res) {
     console.log("New pagepost created!");
   });
 
-  res.render("adminpanel");
+  PagesPosts.find({}).exec((err, pagesPosts) => {
+    res.render("adminPanel", { pagesPosts: pagesPosts });
+  });
 });
 
 // Get request for each link that gets uploaded in the dropdown
 
 // Login page - Get
 myApp.get("/login", function(req, res) {
-  res.render("login");
+  PagesPosts.find({}).exec((err, pagesPosts) => {
+    res.render("login", { pagesPosts: pagesPosts });
+  });
 });
 
 // Login page - Post
@@ -122,6 +126,10 @@ myApp.get("/login", function(req, res) {
 myApp.post("/login", function(req, res) {
   let userInput = req.body.username;
   let passwordInput = req.body.password;
+
+  PagesPosts.find({}).exec((err, pagesPosts) => {
+    { pagesPosts: pagesPosts };
+  });
 
   // console.log(userInput);
   // console.log(passwordInput);
@@ -142,10 +150,20 @@ myApp.post("/login", function(req, res) {
       res.redirect("adminPanel");
     } else {
       //display error if the user info is incorrect,
-      res.render("login", { error: "Sorry Login Failed, please try again" });
+      res.render("login", { error: "Sorry Login Failed, please try again"});
     }
   });
 });
+
+myApp.get("/:slugOfPage", (req, res) => {
+  PagesPosts.findOne({ slugOfPage: req.params.slugOfPage }).exec(
+    (err, pagePost) => {
+      console.log(pagePost);
+      res.render("home", { pagePost: pagePost });
+    }
+  );
+});
+
 
 //open up the ports, http protocol
 

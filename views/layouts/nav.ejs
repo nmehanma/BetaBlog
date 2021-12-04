@@ -2,19 +2,19 @@
 <nav class="nav_menu">
   <ul>
     <li><a href="/login">Login</a></li>
-    <li><a href="/authors">Authors</a></li>
-    <li>
-      <% 
-         %> 
-      <div class="dropdown">
-        <button class="dropbtn">
-          Existing Posts
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-          <a href="#">Link1</a>
-        </div>
+    <!-- <li><a href="/authors">Authors</a></li> -->
+    <div class="dropdown">
+      <button class="dropbtn">
+        Existing Posts
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <% if (pagesPosts) {
+           for (pagePost of pagesPosts){ %>
+            <a href="/<%= pagePost.slugOfPage %>"><%= pagePost.pagePostTitle %></a>
+          <% } %>
+        <% } %>
       </div>
-    </li>
+    </div>
   </ul>
 </nav>
