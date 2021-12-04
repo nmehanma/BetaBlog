@@ -24,38 +24,74 @@ mongoose.connect("mongodb://localhost:27017/betablog", {
   useUnifiedTopology: true
 }); // Path of Database
 
-//Setup the model for the coolection - admin
+//Setup the model for the user Collection - admin
 
-const Admin = mongoose.model('Admin', {
+const Admin = mongoose.model("Admin", {
   username: String,
   password: String
 });
 
-
 //Get Express Session
 
-const session = require('express-session')
+const session = require("express-session");
 
 // Setup Session
-myApp.use(session({
-  secret: 'superrandomsecret',
-  resave: false,  //resave means that session will be refreshed, session not resumed again
-  saveUninitialized : true 
-}));
-
+myApp.use(
+  session({
+    secret: "superrandomsecret",
+    resave: false, //resave means that session will be refreshed, session not resumed again
+    saveUninitialized: true
+  })
+);
 
 // home page root directory
 myApp.get("/", function(req, res) {
-  res.render("form"); //no need to add.ejs extension to the command.
+  res.render("home"); //no need to add.ejs extension to the command.
 });
 
-// Login page
-myApp.get("/login", function(req, res) {
-  Order.find({}).exec(function(err, orders) {
-    // console.log(err);
-    // res.render("allorders", {orders: orders});
-  })
+// beta blogs
+
+myApp.get("/betablog", function(req, res) {
+  res.render("betablog"); //no need to add.ejs extension to the command.
 });
+
+// Login page - Get
+myApp.get("/login", function(req, res) {
+  res.render("login");
+});
+
+// Login page - Post
+
+myApp.post("/login", function(req, res) {
+  let userInput = req.body.username;
+  let passwordInput = req.body.password;
+
+  //console.log(userInput);
+  //console.log(passwordInput);
+
+  Admin.findOne({ username: userInput, password: passwordInput }).exec(function(
+    err,
+    admin
+  ) {
+    //log any errors
+    console.log("Error: " + err);
+    console.log("Admin: " + admin);
+    if (admin) {
+      //store the username in session and set logged as true
+      req.session.username = admin.username;
+      req.session.userLoggedIn = true;
+
+      //redirect user to the dashboard - blog page
+      res.redirect("adminPanel");
+    } else {
+      //display error if the user info is incorrect,
+      res.render("login", { error: "Sorry Login Failed, please try again" });
+    }
+  });
+});
+
+
+
 
 
 //open up the ports, http protocol
