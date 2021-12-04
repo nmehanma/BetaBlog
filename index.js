@@ -73,7 +73,7 @@ myApp.get("/adminpanel", function(req, res) {
       res.render("adminpanel", { pagesPosts: pagesPosts });
     });
   } else {
-    res.redirect("/login");  // need to send pagesPosts
+    res.redirect("/login"); // need to send pagesPosts
   }
 });
 
@@ -119,8 +119,8 @@ myApp.post("/adminpanel", function(req, res) {
 // Login page - Get
 myApp.get("/login", function(req, res) {
   PagesPosts.find({}).exec((err, pagesPosts) => {
-    console.log(pagesPosts)
-    res.render("login", {pagesPosts : pagesPosts} ); // need to send pagesPosts as blank
+    // console.log(pagesPosts)
+    res.render("login", { pagesPosts: pagesPosts, admin: "admin" }); // need to send pagesPosts as blank
   });
 });
 
@@ -128,13 +128,18 @@ myApp.get("/login", function(req, res) {
 
 myApp.get("/logout", (req, res) => {
   //End username session an set logged in false
-  req.session.username = ""
+  req.session.username = "";
   req.session.userLoggedIn = false;
   PagesPosts.find({}).exec((err, pagesPosts) => {
-    console.log(pagesPosts)
-    res.render("login", {pagesPosts: pagesPosts, error: "You have succesfully logged out"})
+    // console.log(pagesPosts)
+    let admin = ""
+    res.render("login", {
+      pagesPosts: pagesPosts,
+      error: "You have succesfully logged out",
+      admin: ""
+    });
   });
-})
+});
 
 // Login page - Post
 
@@ -145,27 +150,32 @@ myApp.post("/login", function(req, res) {
   // console.log(userInput);
   // console.log(passwordInput);
 
-  Admin.findOne({ username: userInput, password: passwordInput }).exec(function(
-    err,
-    admin
-  ) {
-    //log any errors
-    console.log("Error: " + err);
-    console.log("Admin: " + admin);
-    if (admin) {
-      //store the username in session and set logged as true
-      req.session.username = admin.username;
-      req.session.userLoggedIn = true;
+  PagesPosts.find({}).exec((err, pagesPosts) => {
+    // console.log(pagesPosts)
+    Admin.findOne({ username: userInput, password: passwordInput }).exec(
+      function(err, admin) {
+        console.log(admin);
+        //log any errors
+        console.log("Error: " + err);
+        console.log("Admin: " + admin);
+        if (admin) {
+          //store the username in session and set logged as true
+          req.session.username = admin.username;
+          req.session.userLoggedIn = true;
 
-      //redirect user to the dashboard - blog page
-      res.redirect("adminPanel");
-    } else {
-      //display error if the user info is incorrect,
-      PagesPosts.find({}).exec((err, pagesPosts) => {
-        console.log(pagesPosts)
-        res.render("login", {pagesPosts: pagesPosts, error: "Sorry Login Failed, please try again"})
-      });
-    };
+          //redirect user to the dashboard - blog page
+          res.render("adminPanel", { admin: admin, pagesPosts: pagesPosts });
+        } else {
+          //display error if the user info is incorrect,
+
+          res.render("login", {
+            admin: "",
+            pagesPosts: pagesPosts,
+            error: "Sorry Login Failed, please try again"
+          });
+        }
+      }
+    );
   });
 });
 
