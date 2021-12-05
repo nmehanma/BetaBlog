@@ -198,11 +198,10 @@ myApp.get("/delete/:id", function(req, res) {
     PagesPosts.findByIdAndDelete({ _id: objid }).exec((err, pagePost) => {
       console.log("Error: " + err);
       console.log("PagePost: " + pagePost);
-      if(pagePost) {
-        res.render("delete", {message: "Successfully Deleted..!!"});
-      }
-      else { 
-        res.render('delete', {message: "Sorry, record not deleted...!!"})
+      if (pagePost) {
+        res.render("delete", { message: "Successfully Deleted..!!" });
+      } else {
+        res.render("delete", { message: "Sorry, record not deleted...!!" });
       }
     });
   } else {
@@ -219,11 +218,10 @@ myApp.get("/edit/:id", function(req, res) {
     PagesPosts.findOne({ _id: objid }).exec((err, pagePost) => {
       console.log("Error: " + err);
       console.log("PagePost: " + pagePost);
-      if(pagePost) {
-        res.render("edit", {pagePost: pagePost, admin: "admin"});
-      }
-      else { 
-        res.send("No order found with this id...1")
+      if (pagePost) {
+        res.render("edit", { pagePost: pagePost, admin: "admin" });
+      } else {
+        res.send("No order found with this id...1");
       }
     });
   } else {
@@ -254,24 +252,19 @@ myApp.post("/edit/:id", function(req, res) {
     imageName
   };
 
-  //we are updating 
+  //we are updating
 
   let id = req.params.id;
 
-  PagesPosts.findOne({_id: id}, (err, order) => {
+  PagesPosts.findOne({ _id: id }, (err, order) => {
     pagePost.pagePostTitle = pagePostTitle;
     pagePost.slugOfPage = slugOfPage;
     pagePost.imageName = imageName;
-    pagePost.save(); 
+    pagePost.save();
   });
 
-  res.render('editsuccess', {pageData, message: "Success"});
+  res.render("editsuccess", { pageData, message: "Success" });
 });
-
-
-
-
-
 
 //open up the ports, http protocol
 
