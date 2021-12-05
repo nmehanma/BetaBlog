@@ -210,6 +210,69 @@ myApp.get("/delete/:id", function(req, res) {
   }
 });
 
+// Edit Page
+myApp.get("/edit/:id", function(req, res) {
+  //anything defined after : is a variable
+  if (req.session.username) {
+    //Edit
+    let objid = req.params.id;
+    PagesPosts.findOne({ _id: objid }).exec((err, pagePost) => {
+      console.log("Error: " + err);
+      console.log("PagePost: " + pagePost);
+      if(pagePost) {
+        res.render("edit", {pagePost: pagePost, admin: "admin"});
+      }
+      else { 
+        res.send("No order found with this id...1")
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+//Edit page post request
+
+myApp.post("/edit/:id", function(req, res) {
+  console.log(req.files);
+  let imageName = req.files.myImage.name;
+  let image = req.files.myImage;
+  let imagePath = "public/contact_images/" + imageName;
+  image.mv(imagePath, function(err) {
+    console.log(err);
+  });
+  let pagePostTitle = req.body.newPagePostTitle;
+  let slugOfPage = req.body.newSlugPageTitle;
+
+  console.log(pagePostTitle);
+  console.log(slugOfPage);
+  console.log(image);
+
+  let pageData = {
+    pagePostTitle,
+    slugOfPage,
+    imageName
+  };
+
+  //we are updating 
+
+  let id = req.params.id;
+
+  PagesPosts.findOne({_id: id}, (err, order) => {
+    pagePost.pagePostTitle = pagePostTitle;
+    pagePost.slugOfPage = slugOfPage;
+    pagePost.imageName = imageName;
+    pagePost.save(); 
+  });
+
+  res.render('editsuccess', {pageData, message: "Success"});
+});
+
+
+
+
+
+
 //open up the ports, http protocol
 
 // Confirmation output domain name displayed in terminal screen
