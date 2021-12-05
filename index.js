@@ -70,7 +70,8 @@ myApp.use(
 myApp.get("/adminpanel", function(req, res) {
   if (req.session.userLoggedIn) {
     PagesPosts.find({}).exec((err, pagesPosts) => {
-      res.render("adminpanel", { pagesPosts: pagesPosts });
+      // console.log(admin);
+      res.render("adminpanel", { pagesPosts: pagesPosts, admin: "admin" });
     });
   } else {
     res.redirect("/login"); // need to send pagesPosts
@@ -110,7 +111,7 @@ myApp.post("/adminpanel", function(req, res) {
   });
 
   PagesPosts.find({}).exec((err, pagesPosts) => {
-    res.render("adminPanel", { pagesPosts: pagesPosts });
+    res.render("adminPanel", { pagesPosts: pagesPosts, admin: "admin" });
   });
 });
 
@@ -120,29 +121,11 @@ myApp.post("/adminpanel", function(req, res) {
 myApp.get("/login", function(req, res) {
   PagesPosts.find({}).exec((err, pagesPosts) => {
     // console.log(pagesPosts)
-    res.render("login", { pagesPosts: pagesPosts, admin: "admin" }); // need to send pagesPosts as blank
-  });
-});
-
-//Logout page - Get
-
-myApp.get("/logout", (req, res) => {
-  //End username session an set logged in false
-  req.session.username = "";
-  req.session.userLoggedIn = false;
-  PagesPosts.find({}).exec((err, pagesPosts) => {
-    // console.log(pagesPosts)
-    let admin = ""
-    res.render("login", {
-      pagesPosts: pagesPosts,
-      error: "You have succesfully logged out",
-      admin: ""
-    });
+    res.render("login", { pagesPosts: pagesPosts, admin: "" }); // need to send pagesPosts as blank
   });
 });
 
 // Login page - Post
-
 myApp.post("/login", function(req, res) {
   let userInput = req.body.username;
   let passwordInput = req.body.password;
@@ -154,7 +137,7 @@ myApp.post("/login", function(req, res) {
     // console.log(pagesPosts)
     Admin.findOne({ username: userInput, password: passwordInput }).exec(
       function(err, admin) {
-        console.log(admin);
+        // console.log(admin);
         //log any errors
         console.log("Error: " + err);
         console.log("Admin: " + admin);
@@ -164,7 +147,7 @@ myApp.post("/login", function(req, res) {
           req.session.userLoggedIn = true;
 
           //redirect user to the dashboard - blog page
-          res.render("adminPanel", { admin: admin, pagesPosts: pagesPosts });
+          res.redirect("/adminPanel");
         } else {
           //display error if the user info is incorrect,
 
@@ -179,6 +162,23 @@ myApp.post("/login", function(req, res) {
   });
 });
 
+//Logout page - Get
+
+myApp.get("/logout", (req, res) => {
+  //End username session an set logged in false
+  req.session.username = "";
+  req.session.userLoggedIn = false;
+  PagesPosts.find({}).exec((err, pagesPosts) => {
+    // console.log(pagesPosts)
+    let admin = "";
+    res.render("login", {
+      pagesPosts: pagesPosts,
+      error: "You have succesfully logged out",
+      admin: ""
+    });
+  });
+});
+
 myApp.get("/:slugOfPage", (req, res) => {
   PagesPosts.findOne({ slugOfPage: req.params.slugOfPage }).exec(
     (err, pagePost) => {
@@ -186,6 +186,28 @@ myApp.get("/:slugOfPage", (req, res) => {
       res.render("home", { pagePost: pagePost });
     }
   );
+});
+
+//Delete Page
+
+myApp.get("/delete/:id", function(req, res) {
+  //anything defined after : is a variable
+  if (req.session.username) {
+    //Delete
+    let objid = req.params.id;
+    PagesPosts.findByIdAndDelete({ _id: objid }).exec((err, pagePost) => {
+      console.log("Error: " + err);
+      console.log("PagePost: " + pagePost);
+      if(pagePost) {
+        res.render("delete", {message: "Successfully Deleted..!!"});
+      }
+      else { 
+        res.render('delete', {message: "Sorry, record not deleted...!!"})
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 //open up the ports, http protocol

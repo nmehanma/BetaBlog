@@ -1,15 +1,18 @@
 <!-- Author Najeam 7457195 -->
 <nav class="nav_menu">
   <ul>
-    <li><a href="/login">Login</a></li>
-    <!-- <li><a href="/authors">Authors</a></li> -->
+    <% if (admin !== 'admin') { %>
+      <li><a href="/login">Login</a></li>
+    <% } else { %>
+      <li><a href="/logout">Logout</a></li>
+    <% } %>
     <div class="dropdown">
       <button class="dropbtn">
         Existing Posts
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <% if (admin.username === "admin") {
+        <% if (admin === "admin") {
            for (pagePost of pagesPosts){ %>
            <a href="/<%= pagePost.slugOfPage %>"><%= pagePost.pagePostTitle %></a>
            <% }      
