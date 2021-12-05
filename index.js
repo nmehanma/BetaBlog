@@ -111,7 +111,11 @@ myApp.post("/adminpanel", function(req, res) {
   });
 
   PagesPosts.find({}).exec((err, pagesPosts) => {
-    res.render("editsuccess", { pageData, message: "Success", admin: "admin" });
+    res.render("newsuccess", {
+      pageData,
+      message: "Success",
+      admin: "admin"
+    });
   });
 });
 
