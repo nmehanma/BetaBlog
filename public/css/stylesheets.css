@@ -3,66 +3,152 @@ body {
   flex-direction: column;
   background: blanchedalmond;
   font-family: Arial, Helvetica, sans-serif;
-  /* height: 100px; */
+  height: 100%;
 }
 
-h1 {
-  text-align: center;
-}
 header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: left;
+  /* justify-content: left; */
   margin: 0 20 20 20;
   /* padding-bottom: 30px; */
   border: 2px solid black;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 10px;
+  height: 10%;
   /* height: 100px; */
 }
 
-header > img {
-  width: 20%;
-  /* size: 100px; */
+header h1 {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 40px;
 }
 
-.nav_menu > ul {
+header img {
+  width: 20%;
+  border-radius: 10px;
+}
+
+.nav_menu {
+  height: 10%;
   display: flex;
   flex-direction: row;
-  list-style-type: none;
-  margin: auto;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* background: grey; */
+  /* border: 2px solid black;
+  border-radius: 10px; */
+  margin: 0 20px;
+}
+
+.nav_menu > .dropdown,
+.login {
+  flex-grow: 1;
   border: 2px solid black;
-  border-radius: 5px;
+  border-radius: 10px;
+  background: grey;
 }
 
-.nav_menu > ul > li {
+.nav_menu ul,
+li {
+  list-style: none;
+}
+
+.dropdown-content {
+  display: none;
+  flex-direction: column;
+  /* position: absolute; */
+  background-color: white;
+  border: 2px solid black;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border: 2px solid black;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+.login-data, .admin-panel-data {
+  display: flex;
+  flex-direction: column;
+  /* margin: 100px;; */
+  /* margin: 50px;; */
   margin: auto;
-  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
 }
 
-.login-data,
+.login-data, .admin-panel-data > h1 {
+  text-align: center;
+}
+
+.form-data, form {
+  display: flex;
+  flex-direction: column;
+}
+
+form > div {
+  display: flex;
+  flex-direction: row;
+}
+form > div label,
+input {
+  flex-grow: 1;
+  text-align: center;
+  align-content: center;
+  /* margin: auto; */
+}
+
+.form-data .submit {
+  margin: auto;
+}
+
+/* .login-data,
 .admin-panel-data {
   border: 2px solid black;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   margin: 40px 200px;
-}
-.login-data > h1,
+} */
+/* .login-data > h1,
 div {
   background: grey;
-}
+} */
 
-#login-form,
+/* #login-form,
 #admin-panel-form {
   display: flex;
   flex-direction: column;
   /* align-items: left; */
-}
-
+/* }  */
+/* 
 #login-form > div,
 #admin-panel-form > div {
   display: flex;
@@ -71,15 +157,15 @@ div {
   align-items: center;
   justify-content: right;
   margin-right: 25%;
-}
-
+} */
+/* 
 #login-form > div > input,
 #admin-panel-form > div > input {
   justify-content: center;
   align-content: center;
   padding-right: 20px;
   margin-left: 20px;
-}
+} */
 
 /* #image-upload-label {
 } */

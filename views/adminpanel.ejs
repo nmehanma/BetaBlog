@@ -4,37 +4,45 @@
 
   <div class="admin-panel-data">
     <h1>Admin Panel</h1>
-    <form name="admin-panel" id="admin-panel-form" method="post" action="" enctype='multipart/form-data' >
-      <!--User info-->
-      <div class="name-label">
-        <label for="new-page-post">Insert Page/Post Title</label>
-        <input
-          name="newPagePostTitle"
-          type="text"
-          id="new-page-post"
-          placeholder="Enter Page/Post Title"
-        />
-      </div>
-      <div class="slug-page">
-        <label for="slug-page">Slug of page</label>
-        <input
-          name="newSlugPageTitle"
-          type="text"
-          id="slug-page"
-          placeholder="Enter Slug title"
-        />
-      </div>
-      <div class="image-upload">
-        <label for="myImage">Image Upload</label>
-        <input name="myImage" id="my-image" type="file" src="" />
-      </div>
-      <div class="submit">
-        <input id="submit" type="submit" value="Add" />
-      </div>
+    <div class="form-data">
+      <form
+        name="admin-panel"
+        id="admin-panel-form"
+        method="post"
+        action=""
+        enctype="multipart/form-data"
+      >
+        <!--User info-->
+        <div class="name-label">
+          <label for="new-page-post">Insert Page/Post Title</label>
+          <input
+            name="newPagePostTitle"
+            type="text"
+            id="new-page-post"
+            placeholder="Enter Page/Post Title"
+          />
+        </div>
+        <div class="slug-page">
+          <label for="slug-page">Slug of page</label>
+          <input
+            name="newSlugPageTitle"
+            type="text"
+            id="slug-page"
+            placeholder="Enter Slug title"
+          />
+        </div>
+        <div class="image-upload">
+          <label for="myImage">Image Upload</label>
+          <input name="myImage" id="my-image" type="file" src="" />
+        </div>
+        <div class="submit">
+          <input id="submit" type="submit" value="Add" />
+        </div>
 
-      <p id="errors">
-        <% if(typeof(error) !== 'undefined') { %> <%= error %> <% } %>
-      </p>
-    </form>
+        <p id="errors">
+          <% if(typeof(error) !== 'undefined') { %> <%= error %> <% } %>
+        </p>
+      </form>
+    </div>
   </div>
 </body>

@@ -3,7 +3,7 @@
 const express = require("express");
 const path = require("path");
 const { check, validationResult } = require("express-validator");
-// const { RSA_PSS_SALTLEN_DIGEST } = require('constants')
+const { RSA_PSS_SALTLEN_DIGEST } = require('constants')
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
 
@@ -28,14 +28,14 @@ mongoose.connect("mongodb://localhost:27017/betablog", {
   useUnifiedTopology: true
 }); // Path of Database
 
-//Setup the model for the user Collection - admin
+//Setup the DATABASE MODEL  for the user Collection - Admin user
 
 const Admin = mongoose.model("Admin", {
   username: String,
   password: String
 });
 
-//Setup the model for the pagesposts Collection - admin
+//Setup the DATABASE MODEL for the PagesPosts Collection - Admin user
 
 const PagesPosts = mongoose.model("PagesPosts", {
   pagePostTitle: String,
@@ -56,12 +56,12 @@ myApp.use(
   })
 );
 
-// ----------------- Directories
+// ----------------- Directories ---------------
 
 // home page root directory
 // myApp.get("/", function(req, res) {
 //   PagesPosts.find({}).exec((err, pagesPosts) => {
-//     res.render("home", { pagesPosts: pagesPosts });
+//     res.render("home", { admin : "admin" });
 //   });
 // });
 

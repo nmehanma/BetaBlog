@@ -1,23 +1,28 @@
 <!-- Author Najeam 7457195 -->
 <nav class="nav_menu">
-  <ul>
+  <div class="login">
     <% if (admin !== 'admin') { %>
-      <li><a href="/login">Login</a></li>
+    <a href="/login">Login</a>
     <% } else { %>
-      <li><a href="/logout">Logout</a></li>
+    <a href="/logout">Logout</a>
     <% } %>
-    <div class="dropdown">
-      <button class="dropbtn">
-        Existing Posts
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-content">
-        <% if (admin === "admin") {
-           for (pagePost of pagesPosts){ %>
-           <a href="/<%= pagePost.slugOfPage %>"><%= pagePost.pagePostTitle %></a>
-           <% }      
-         } %>
-      </div>
+  </div>
+  <div class="dropdown">
+    <% if (admin === "admin") { %>
+    <a href="/adminpanel">Dropdown</a>
+    <div class="dropdown-content">
+      <% for (pagePost of pagesPosts){ %>
+      <ul>
+        <li>
+          <a href="/<%= pagePost.slugOfPage %>"
+            ><%= pagePost.pagePostTitle %></a
+          >
+        </li>
+      </ul>
+      <% } %>
     </div>
-  </ul>
+    <% } else { %>
+    <a href="/adminpanel">Dropdown</a>
+  </div>
+  <% } %>
 </nav>

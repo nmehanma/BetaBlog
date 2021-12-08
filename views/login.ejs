@@ -7,34 +7,36 @@
   <!-- <section class="flex-container"> -->
   <div class="login-data">
     <h1>Login</h1>
-    <form name="login" id=login-form method="post" action="">
-      <!--User info-->
-      <div class="name-label">
-        <label for="username">UserName</label>
-        <input
-          name="username"
-          type="text"
-          id="username"
-          placeholder="username"
-        />
-      </div>
-      <div class="password">
-        <label for="password">Password</label>
-        <input
-          name="password"
-          type="password"
-          id="password"
-          placeholder="********"
-        />
-      </div>
-      <div class="submit">
-        <input id="submit" type="submit" value="Submit" />
-      </div>
+    <div class="form-data">
+      <form name="login" id="login-form" method="post" action="">
+        <!--User info-->
+        <div class="name-label">
+          <label for="username">UserName</label>
+          <input
+            name="username"
+            type="text"
+            id="username"
+            placeholder="username"
+          />
+        </div>
+        <div class="password">
+          <label for="password">Password</label>
+          <input
+            name="password"
+            type="password"
+            id="password"
+            placeholder="********"
+          />
+        </div>
+        <div class="submit">
+          <input id="submit" type="submit" value="Submit" />
+        </div>
 
-      <p id="errors">
-        <% if(typeof(error) !== 'undefined') { %> <%= error %> <% } %>
-      </p>
-    </form>
+        <p id="errors">
+          <% if(typeof(error) !== 'undefined') { %> <%= error %> <% } %>
+        </p>
+      </form>
+    </div>
   </div>
 </body>
 <%- include('layouts/footer'); -%>
