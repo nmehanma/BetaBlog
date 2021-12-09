@@ -1,5 +1,6 @@
 <%- include('layouts/header'); -%>
 <body>
+  <%- include('layouts/nav'); -%>
   <div class="admin-panel-data">
     <h1>Admin Panel</h1>
     <form
@@ -28,6 +29,15 @@
           id="slug-page"
           placeholder="Enter Slug title"
           value="<%= pagePost.slugOfPage %>"
+        />
+      </div>
+      <div class="text-input">
+        <label for="text-input">Text Input</label>
+        <input
+          name="newTextInput"
+          type="text"
+          id="text-input"
+          value="<%= pagePost.textInput %>"
         />
       </div>
       <div class="image-upload">

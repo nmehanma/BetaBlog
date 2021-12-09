@@ -118,7 +118,7 @@ myApp.post("/adminpanel", function(req, res) {
   PagesPosts.find({}).exec((err, pagesPosts) => {
     res.render("newsuccess", {
       pageData,
-      message: "Successful Add!",
+      message: "Successful Add! Return to Admin Panel",
       admin: "admin",
       pagesPosts
     });
@@ -216,7 +216,7 @@ myApp.get("/delete/:id", function(req, res) {
         console.log("PagePost: " + pagePost);
         if (pagePost) {
           res.render("delete", {
-            message: "Successfully Deleted..!!",
+            message: "Successfully Deleted..Return to Admin Panel!!",
             admin: "admin",
             pagesPosts
           });

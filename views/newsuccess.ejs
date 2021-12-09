@@ -3,13 +3,16 @@
 <body>
   <%- include('layouts/nav'); -%>
   <div class="result">
-    <h2><%= message %></h2>
+    <button onclick="window.location='adminpanel';" value="">
+      <%= message %>
+    </button>
+  </div>
 
-    <table class="result">
+  <!-- <table class="result">
         <tbody>
           <tr>
             <th>Page Title:</th>
-            <td><%= pagePost.pagePostTitle %></td>
+            <td><h3><%= pagePost.pagePostTitle %></h3></td>
           </tr>
           <tr>
             <th>Image:</th>
@@ -19,7 +22,7 @@
           </tr>
           <tr>
             <th>Input Text:</th>
-            <td><input type="text" value="<%= pagePost.textInput %>"></td>
+            <td><h3><%= pagePost.textInput %></h3></td>
           </tr>
           <tr>
             <th></th>
@@ -44,8 +47,6 @@
             </td>
           </tr>
         </tbody>
-      </table>
-
-    
+      </table> -->
+      <%- include('layouts/footer'); -%>
 </body>
-<%- include('layouts/footer'); -%>
