@@ -151,6 +151,17 @@ form > div > input {
   margin-top: 20px;
 }
 
+.result {
+text-align: center;
+}
+
+.result img{
+  max-width: 50%;
+  height: auto;
+  border: 2px solid black;
+}
+
+
 
 
 /* .login-data,

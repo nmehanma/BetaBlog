@@ -94,6 +94,7 @@ myApp.post("/adminpanel", function(req, res) {
   });
   let pagePostTitle = req.body.newPagePostTitle;
   let slugOfPage = req.body.newSlugPageTitle;
+  
 
   console.log(pagePostTitle);
   console.log(slugOfPage);
