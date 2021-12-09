@@ -1,26 +1,47 @@
 <!--Author- Najeam Mehanmal 7457195-->
 <%- include('layouts/header'); -%>
 <body>
-    <%- include('layouts/nav'); -%>
-  
-  <div class="result">
-    <h1>Post retrieved</h1>
-    <h2><%= pagePost.pagePostTitle %></h2>
+  <%- include('layouts/nav'); -%>
 
-    <div class="img">
-      <img src="../contact_images/<%= pagePost.imageName %>" alt="" />
-    </div>
-
-    <div class="delete">
-      <button onclick="window.location='/delete/<%= pagePost._id %>';" value="">
-        Delete
-      </button>
-    </div>
-
-    <div class="Edit">
-      <button onclick="window.location='/edit/<%= pagePost._id %>';" value="">
-        Edit
-      </button>
-    </div>
-  </div>
+  <table class="result">
+    <tbody>
+      <tr>
+        <th>Page Title:</th>
+        <td><%= pagePost.pagePostTitle %></td>
+      </tr>
+      <tr>
+        <th>Image:</th>
+        <td>
+          <img src="../contact_images/<%= pagePost.imageName %>" alt="" />
+        </td>
+      </tr>
+      <tr>
+        <th>Input Text:</th>
+        <td><h3><%= pagePost.textInput %></h3></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td>
+          <button
+            onclick="window.location='/edit/<%= pagePost._id %>';"
+            value=""
+          >
+            Edit
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th></th>
+        <td>
+          <button
+            onclick="window.location='/delete/<%= pagePost._id %>';"
+            value=""
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <%- include('layouts/footer'); -%>
 </body>

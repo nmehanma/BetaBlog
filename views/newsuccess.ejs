@@ -1,22 +1,51 @@
 <!--Author- Najeam Mehanmal 7457195-->
 <%- include('layouts/header'); -%>
 <body>
-    <%- include('layouts/nav'); -%>
-  <div class="formData">
-    <p><%= message %></p>
-    <button onclick="window.location='/adminPanel';" value="">
-      Return to adminPanel
-    </button>
-  </div>
+  <%- include('layouts/nav'); -%>
+  <div class="result">
+    <h2><%= message %></h2>
 
-  <h2><%= pagePost.pagePostTitle %></h2>
+    <table class="result">
+        <tbody>
+          <tr>
+            <th>Page Title:</th>
+            <td><%= pagePost.pagePostTitle %></td>
+          </tr>
+          <tr>
+            <th>Image:</th>
+            <td>
+              <img src="../contact_images/<%= pagePost.imageName %>" alt="" />
+            </td>
+          </tr>
+          <tr>
+            <th>Input Text:</th>
+            <td><input type="text" value="<%= pagePost.textInput %>"></td>
+          </tr>
+          <tr>
+            <th></th>
+            <td>
+              <button
+                onclick="window.location='/edit/<%= pagePost._id %>';"
+                value=""
+              >
+                Edit
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <th></th>
+            <td>
+              <button
+                onclick="window.location='/delete/<%= pagePost._id %>';"
+                value=""
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div class="img">
-    <img src="../contact_images/<%= pagePost.imageName %>" alt="" />
-  </div>
-
-  <button></button>
-  <a href="/delete/<%= pagePost._id %>">Delete</a>
-  <a href="/edit/<%= pagePost._id %>">Edit</a>
+    
 </body>
 <%- include('layouts/footer'); -%>

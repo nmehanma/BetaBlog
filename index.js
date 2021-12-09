@@ -40,7 +40,8 @@ const Admin = mongoose.model("Admin", {
 const PagesPosts = mongoose.model("PagesPosts", {
   pagePostTitle: String,
   slugOfPage: String,
-  imageName: String
+  imageName: String,
+  textInput: String
 });
 
 // -----------------------
@@ -94,15 +95,18 @@ myApp.post("/adminpanel", function(req, res) {
   });
   let pagePostTitle = req.body.newPagePostTitle;
   let slugOfPage = req.body.newSlugPageTitle;
+  let textInput = req.body.newTextInput;
   
 
   console.log(pagePostTitle);
   console.log(slugOfPage);
+  console.log(textInput);
   console.log(image);
 
   let pageData = {
     pagePostTitle,
     slugOfPage,
+    textInput,
     imageName
   };
 
@@ -114,7 +118,7 @@ myApp.post("/adminpanel", function(req, res) {
   PagesPosts.find({}).exec((err, pagesPosts) => {
     res.render("newsuccess", {
       pageData,
-      message: "Success",
+      message: "Successful Add!",
       admin: "admin",
       pagesPosts
     });
@@ -264,14 +268,17 @@ myApp.post("/edit/:id", function(req, res) {
   });
   let pagePostTitle = req.body.newPagePostTitle;
   let slugOfPage = req.body.newSlugPageTitle;
+  let textInput = req.body.newTextInput;
 
   console.log(pagePostTitle);
   console.log(slugOfPage);
   console.log(image);
+  console.log(textInput);
 
   let pageData = {
     pagePostTitle,
     slugOfPage,
+    textInput,
     imageName
   };
 
@@ -282,6 +289,8 @@ myApp.post("/edit/:id", function(req, res) {
   PagesPosts.findOne({ _id: id }, (err, pagePost) => {
     pagePost.pagePostTitle = pagePostTitle;
     pagePost.slugOfPage = slugOfPage;
+    pagePost.textInput = textInput;
+
     pagePost.imageName = imageName;
     pagePost.save();
     PagesPosts.find({}).exec((err, pagesPosts) => {
