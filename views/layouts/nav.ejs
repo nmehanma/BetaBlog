@@ -11,15 +11,15 @@
     <% if (admin === "admin") { %>
     <a href="/adminpanel">Dropdown</a>
     <div class="dropdown-content">
-      <% for (pagePost of pagesPosts){ %>
       <ul>
+      <% for (pagePost of pagesPosts){ %>
         <li>
           <a href="/<%= pagePost.slugOfPage %>"
             ><%= pagePost.pagePostTitle %></a
           >
         </li>
+        <% } %>
       </ul>
-      <% } %>
     </div>
     <% } else { %>
     <a href="/adminpanel">Dropdown</a>

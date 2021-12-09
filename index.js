@@ -3,7 +3,7 @@
 const express = require("express");
 const path = require("path");
 const { check, validationResult } = require("express-validator");
-const { RSA_PSS_SALTLEN_DIGEST } = require('constants')
+const { RSA_PSS_SALTLEN_DIGEST } = require("constants");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
 
@@ -114,7 +114,8 @@ myApp.post("/adminpanel", function(req, res) {
     res.render("newsuccess", {
       pageData,
       message: "Success",
-      admin: "admin"
+      admin: "admin",
+      pagesPosts
     });
   });
 });
@@ -187,7 +188,9 @@ myApp.get("/:slugOfPage", (req, res) => {
   PagesPosts.findOne({ slugOfPage: req.params.slugOfPage }).exec(
     (err, pagePost) => {
       console.log(pagePost);
-      res.render("home", { pagePost: pagePost });
+      PagesPosts.find({}).exec((err, pagesPosts) => {
+        res.render("home", { pagePost, pagesPosts, admin: "admin" });
+      });
     }
   );
 });
@@ -199,14 +202,27 @@ myApp.get("/delete/:id", function(req, res) {
   if (req.session.username) {
     //Delete
     let objid = req.params.id;
-    PagesPosts.findByIdAndDelete({ _id: objid }).exec((err, pagePost) => {
-      console.log("Error: " + err);
-      console.log("PagePost: " + pagePost);
-      if (pagePost) {
-        res.render("delete", { message: "Successfully Deleted..!!" });
-      } else {
-        res.render("delete", { message: "Sorry, record not deleted...!!" });
-      }
+    PagesPosts.find({}).exec((err, pagesPosts) => {
+      // console.log(pagesPosts)
+      let admin = "";
+
+      PagesPosts.findByIdAndDelete({ _id: objid }).exec((err, pagePost) => {
+        console.log("Error: " + err);
+        console.log("PagePost: " + pagePost);
+        if (pagePost) {
+          res.render("delete", {
+            message: "Successfully Deleted..!!",
+            admin: "admin",
+            pagesPosts
+          });
+        } else {
+          res.render("delete", {
+            message: "Sorry, record not deleted...!!",
+            admin: "admin",
+            pagesPosts
+          });
+        }
+      });
     });
   } else {
     res.redirect("/login");
@@ -219,14 +235,16 @@ myApp.get("/edit/:id", function(req, res) {
   if (req.session.username) {
     //Edit
     let objid = req.params.id;
-    PagesPosts.findOne({ _id: objid }).exec((err, pagePost) => {
-      console.log("Error: " + err);
-      console.log("PagePost: " + pagePost);
-      if (pagePost) {
-        res.render("edit", { pagePost: pagePost, admin: "admin" });
-      } else {
-        res.send("No order found with this id...1");
-      }
+    PagesPosts.find({}).exec((err, pagesPosts) => {
+      PagesPosts.findOne({ _id: objid }).exec((err, pagePost) => {
+        console.log("Error: " + err);
+        console.log("PagePost: " + pagePost);
+        if (pagePost) {
+          res.render("edit", { pagePost, pagesPosts, admin: "admin" });
+        } else {
+          res.send("No order found with this id...1");
+        }
+      });
     });
   } else {
     res.redirect("/login");
@@ -260,14 +278,15 @@ myApp.post("/edit/:id", function(req, res) {
 
   let id = req.params.id;
 
-  PagesPosts.findOne({ _id: id }, (err, order) => {
+  PagesPosts.findOne({ _id: id }, (err, pagePost) => {
     pagePost.pagePostTitle = pagePostTitle;
     pagePost.slugOfPage = slugOfPage;
     pagePost.imageName = imageName;
     pagePost.save();
+    PagesPosts.find({}).exec((err, pagesPosts) => {
+      res.render("editsuccess", { pageData, message: "Success", pagesPosts, admin: "admin" });
+    });
   });
-
-  res.render("editsuccess", { pageData, message: "Success" });
 });
 
 //open up the ports, http protocol
