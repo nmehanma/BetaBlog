@@ -59,12 +59,6 @@ myApp.use(
 
 // ----------------- Directories ---------------
 
-// home page root directory
-// myApp.get("/", function(req, res) {
-//   PagesPosts.find({}).exec((err, pagesPosts) => {
-//     res.render("home", { admin : "admin" });
-//   });
-// });
 
 // beta blogs
 
@@ -96,7 +90,6 @@ myApp.post("/adminpanel", function(req, res) {
   let pagePostTitle = req.body.newPagePostTitle;
   let slugOfPage = req.body.newSlugPageTitle;
   let textInput = req.body.newTextInput;
-  
 
   console.log(pagePostTitle);
   console.log(slugOfPage);
@@ -294,7 +287,12 @@ myApp.post("/edit/:id", function(req, res) {
     pagePost.imageName = imageName;
     pagePost.save();
     PagesPosts.find({}).exec((err, pagesPosts) => {
-      res.render("editsuccess", { pageData, message: "Success", pagesPosts, admin: "admin" });
+      res.render("editsuccess", {
+        pageData,
+        message: "Success",
+        pagesPosts,
+        admin: "admin"
+      });
     });
   });
 });
